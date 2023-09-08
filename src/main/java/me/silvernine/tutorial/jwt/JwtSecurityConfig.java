@@ -17,5 +17,8 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
             new JwtFilter(tokenProvider),
             UsernamePasswordAuthenticationFilter.class
         );
+        http.addFilterBefore(
+                new JwtExceptionFilter(tokenProvider), JwtFilter.class
+        );
     }
 }

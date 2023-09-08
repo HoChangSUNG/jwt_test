@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -82,13 +83,38 @@ public class TokenProvider implements InitializingBean {
          return true;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
+         throw new JwtException("잘못된 JWT 서명입니다.") {
+            @Override
+            public String getMessage() {
+               return super.getMessage();
+            }
+         };
       } catch (ExpiredJwtException e) {
          logger.info("만료된 JWT 토큰입니다.");
+         throw new JwtException("만료된 JWT 토큰입니다.") {
+            @Override
+            public String getMessage() {
+               return super.getMessage();
+            }
+         };
       } catch (UnsupportedJwtException e) {
+
          logger.info("지원되지 않는 JWT 토큰입니다.");
+         throw new JwtException("지원되지 않는 JWT 토큰입니다.") {
+            @Override
+            public String getMessage() {
+               return super.getMessage();
+            }
+         };
       } catch (IllegalArgumentException e) {
          logger.info("JWT 토큰이 잘못되었습니다.");
+         throw new JwtException("JWT 토큰이 잘못되었습니다.") {
+            @Override
+            public String getMessage() {
+               return super.getMessage();
+            }
+         };
       }
-      return false;
+//      return false;
    }
 }

@@ -58,7 +58,6 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated()
             )
 
@@ -67,12 +66,6 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // enable h2-console
-            .headers(headers ->
-                headers.frameOptions(options ->
-                    options.sameOrigin()
-                )
-            )
 
             .apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
